@@ -1,9 +1,9 @@
+
+Thank you to [Kentoro Imai](https://github.com/kentaroi) for all of their work on the original [eleventy-sass](https://github.com/kentaroi/eleventy-sass)!
+
 # eleventy-sass
 
-[![npm](https://img.shields.io/npm/v/eleventy-sass)](https://www.npmjs.com/package/eleventy-sass)
-[![npm peer dependency version](https://img.shields.io/npm/dependency-version/eleventy-sass/peer/@11ty/eleventy)](https://github.com/11ty/eleventy)
-[![CI](https://github.com/kentaroi/eleventy-sass/workflows/CI/badge.svg?branch=main)](https://github.com/kentaroi/eleventy-sass/actions?query=branch%3Amain+workflow%3ACI)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/kentaroi/eleventy-sass/blob/main/LICENSE)
+**Updated for Eleventy 3.0+**
 
 Yet another Sass/SCSS plugin for [Eleventy](https://www.11ty.dev/).
 
@@ -21,21 +21,14 @@ I created the plugin, because I was not satisfied with the above solutions, for 
 - [The page in the official Docs](https://www.11ty.dev/docs/languages/custom/#example-add-sass-support-to-eleventy) is great if you only have Sass/SCSS files which do not have `@use` or `@forward` rules.<br />
 If you use `@use` in your Sass/SCSS files, for example, and you change a dependency Sass/SCSS file, [Eleventy](https://www.11ty.dev/) will compile it (if its filename doesn't start with "\_"), but won't compile the dependant Sass/SCSS files, if you are following the instructions in [the page of the official Docs](https://www.11ty.dev/docs/languages/custom/#example-add-sass-support-to-eleventy).
 
-In contrast to the existing solutions, [eleventy-sass](https://github.com/kentaroi/eleventy-sass) manages dependencies between Sass/SCSS files and makes maximum use of Eleventy's functionality. It is highly configurable, but it just works if you add it in your Eleventy config file.
+In contrast to the existing solutions, [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) manages dependencies between Sass/SCSS files and makes maximum use of Eleventy's functionality. It is highly configurable, but it just works if you add it in your Eleventy config file.
 
-For those of you who are curious about how [eleventy-sass](https://github.com/kentaroi/eleventy-sass) handles Sass/SCSS files, [here is a brief explanation](#how-eleventy-sass-handles-sassscss-files).
+For those of you who are curious about how [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) handles Sass/SCSS files, [here is a brief explanation](#how-eleventy-sass-handles-sassscss-files).
 
 ## Installation
 ```shell
-npm install eleventy-sass
+npm install prettyyellowdog/eleventy-sass
 ```
-
-For Eleventy 3, install [eleventy-sass@3.0.0-beta.x](https://github.com/kentaroi/eleventy-sass/tree/dev-eleventy3) as follows:
-```shell
-npm install eleventy-sass@^3.0.0-beta.0
-```
-
-[eleventy-sass@3.0.0-beta.x](https://github.com/kentaroi/eleventy-sass/tree/dev-eleventy3) requires Node.js >= 22.
 
 ## Usage
 Open up your Eleventy config file (probably `.eleventy.js`) and use `addPlugin()`:
@@ -49,13 +42,6 @@ module.exports = function(eleventyConfig) {
 ```
 That's it. Only the above code in your `.eleventy.js`, your Sass/SCSS files will be compiled to CSS and written in your `output` directory.
 
-### For Eleventy 3 users
-[eleventy-sass@3.0.0-beta.x](https://github.com/kentaroi/eleventy-sass/tree/dev-eleventy3) uses an experimental feature of Node.js 22 to load Eleventy 3 internal modules. You should add `--experimental-require-module` option to your Node commands.
-
-Therefore, instead of running `npx @11ty/eleventy`, use the following command:
-```shell
-npx --node-options="--experimental-require-module" @11ty/eleventy
-```
 
 ### Default behavior
 Suppose your have the following `.eleventy.js`. In this example, your [input directory](https://www.11ty.dev/docs/config/#input-directory) is "src" and your [output directory](https://www.11ty.dev/docs/config/#output-directory) is "dist" since it seems to be widely used settings in Eleventy community.
@@ -96,7 +82,7 @@ As you can see, your Sass/SCSS files in your [input](https://www.11ty.dev/docs/c
 
 Files in [includes](https://www.11ty.dev/docs/config/#directory-for-includes) directory and files whose filenames start with "\_" are not compiled directly but can be used from the other Sass/SCSS files with `@use` and `@forward` rules.
 
-For example, `_gruvbox.scss` file in the above example can be loaded from `style.scss` file with `@use "themes/gruvbox";`, and `tag-cloud.scss` file can be loaded from `style.scss` file with `@use "tag-cloud";`. (The reason you don't have to specify it with `@use "../_includes/tag-cloud";` is that [includes](https://www.11ty.dev/docs/config/#directory-for-includes) ("\_includes") directory is the default `loadPaths` for [eleventy-sass](https://github.com/kentaroi/eleventy-sass). I will describe `loadPaths` in [Sass options](https://github.com/kentaroi/eleventy-sass/blob/main/docs/sass-options.md).)
+For example, `_gruvbox.scss` file in the above example can be loaded from `style.scss` file with `@use "themes/gruvbox";`, and `tag-cloud.scss` file can be loaded from `style.scss` file with `@use "tag-cloud";`. (The reason you don't have to specify it with `@use "../_includes/tag-cloud";` is that [includes](https://www.11ty.dev/docs/config/#directory-for-includes) ("\_includes") directory is the default `loadPaths` for [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass). I will describe `loadPaths` in [Sass options](https://github.com/prettyyellowdog/eleventy-sass/blob/main/docs/sass-options.md).)
 
 ## For Windows users
 Command samples in this documentation suppose Linux/macOS environments.
@@ -117,7 +103,7 @@ $env:ELEVENTY_ENV="development"; npx @11ty/eleventy
 in `PowerShell`.
 
 ## Options
-[eleventy-sass](https://github.com/kentaroi/eleventy-sass) allows you to customize the behavior by options like follows:
+[eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) allows you to customize the behavior by options like follows:
 
 ```javascript
 // .eleventy.js
@@ -143,16 +129,16 @@ Options can be of type Object or Array.
 ### Options object
 Let's talk about passing an object as options first.
 
-Basically, `options` you pass as the second argument for `addPlugin()` is used for options for `eleventyConfig.addExtension()`, which [eleventy-sass](https://github.com/kentaroi/eleventy-sass) calls internally. The full options list is [provided in the official Docs](https://www.11ty.dev/docs/languages/custom/#full-options-list).
+Basically, `options` you pass as the second argument for `addPlugin()` is used for options for `eleventyConfig.addExtension()`, which [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) calls internally. The full options list is [provided in the official Docs](https://www.11ty.dev/docs/languages/custom/#full-options-list).
 
 However, there are exceptions. Four properties, which are `sass`, `postcss`, `rev` and `when`, are not used for options for `eleventyConfig.addExtension()` but used for other purposes.
 
 #### `sass` property
-`sass` property is used for options for `sass.compileString()`, [a dart-sass API function](https://sass-lang.com/documentation/js-api/modules#compileString), which [eleventy-sass](https://github.com/kentaroi/eleventy-sass) calls internally. For details, please read [Sass options](https://github.com/kentaroi/eleventy-sass/blob/main/docs/sass-options.md) and [the Sass documentation](https://sass-lang.com/documentation/js-api/modules#StringOptions).
+`sass` property is used for options for `sass.compileString()`, [a dart-sass API function](https://sass-lang.com/documentation/js-api/modules#compileString), which [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) calls internally. For details, please read [Sass options](https://github.com/prettyyellowdog/eleventy-sass/blob/main/docs/sass-options.md) and [the Sass documentation](https://sass-lang.com/documentation/js-api/modules#StringOptions).
 
 
 #### `postcss` property
-You can set [PostCSS](https://github.com/postcss/postcss) object to `postcss` property, and [eleventy-sass](https://github.com/kentaroi/eleventy-sass) automatically apply the [PostCSS](https://github.com/postcss/postcss) object to the compiled CSS files.
+You can set [PostCSS](https://github.com/postcss/postcss) object to `postcss` property, and [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) automatically apply the [PostCSS](https://github.com/postcss/postcss) object to the compiled CSS files.
 
 ```javascript
 // .eleventy.js
@@ -169,7 +155,7 @@ module.exports = function(eleventyConfig) {
 ```
 
 #### `rev` property
-If you want to add revision hashes to the compiled CSS filenames, you can set `true` to `rev` property and add [eleventy-plugin-rev](https://github.com/kentaroi/eleventy-plugin-rev) as follows:
+If you want to add revision hashes to the compiled CSS filenames, you can set `true` to `rev` property and add [eleventy-plugin-rev](https://github.com/prettyyellowdog/eleventy-plugin-rev) as follows:
 
 ```bash
 npm install eleventy-plugin-rev
@@ -235,14 +221,14 @@ For example, from `eleventy-quick-tips.md` file, you can also write the link tag
 ⚠️  `inputToRevvedOutput` filter will be deprecated. (Input paths for `inputToRevvedOutput` must be relative paths from your project root, even if your [input directory](https://www.11ty.dev/docs/config/#input-directory) is not your project root.)
 
 #### `when` property
-`when` property is a special property, which is used for enabling or disabling the options object by environment/shell variables. For details, see [when options](https://github.com/kentaroi/eleventy-sass/blob/main/docs/when-options.md). 
+`when` property is a special property, which is used for enabling or disabling the options object by environment/shell variables. For details, see [when options](https://github.com/prettyyellowdog/eleventy-sass/blob/main/docs/when-options.md). 
 
 ### Options array
 You can set an array of objects to the second argument of `addPlugin()` to configure `eleventy-sass` with a finer granularity.
 
 In this case, each element of the array is an [options object](#options-object).
 
-First, [eleventy-sass](https://github.com/kentaroi/eleventy-sass) concatenates [the default options](#default-options) and user-defined options.
+First, [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) concatenates [the default options](#default-options) and user-defined options.
 
 I didn't write about it in the above [Options object](#options-object) section, but even if you set an object as options, the plugin concatenates [the default options](#default-options) and the user-defined options object(s) and the following process is exactly the same.
 
@@ -302,7 +288,7 @@ When you run `ELEVENTY_ENV=stage npx @11ty/eleventy --serve`, the result CSS fil
 When you run  `npx @11ty/eleventy --serve` (if `ELEVENTY_ENV` is not defined in `.bashrc`, `.zshrc`, etc.), `ELEVENTY_ENV=production npx @11ty/eleventy --serve` or `ELEVENTY_ENV= npx @11ty/eleventy --serve`, the result CSS files do not have source maps and have compressed style and their filenames have revision hashes (because of the last options object).
 
 ### Default options
-If you do not specify any options, [eleventy-sass](https://github.com/kentaroi/eleventy-sass) uses the default options.
+If you do not specify any options, [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) uses the default options.
 
 ```javascript
 // Default options
@@ -327,7 +313,7 @@ If you do not specify any options, [eleventy-sass](https://github.com/kentaroi/e
 ]
 ```
 
-The above is the default options. In short, they say [eleventy-sass](https://github.com/kentaroi/eleventy-sass) writes minified (compressed) CSS files without source maps if `ELEVENTY_ENV` environment/shell variable is `production` or not set, otherwise writes readable (expanded) CSS files with source maps.
+The above is the default options. In short, they say [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) writes minified (compressed) CSS files without source maps if `ELEVENTY_ENV` environment/shell variable is `production` or not set, otherwise writes readable (expanded) CSS files with source maps.
 
 For example, if you add the following line in your `.bash_profile`, `.bashrc`, `.zshrc`, etc. on your local PC,
 ```bash
@@ -405,7 +391,7 @@ You can see verbose outputs by using `DEBUG` environment/shell variable (cf. [DE
 DEBUG=Eleventy* npx @11ty/eleventy
 ```
 
-If you want to see only the [eleventy-sass](https://github.com/kentaroi/eleventy-sass)'s verbose outputs, change the value for `DEBUG` environment/shell variable like this:
+If you want to see only the [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass)'s verbose outputs, change the value for `DEBUG` environment/shell variable like this:
 
 ```bash
 DEBUG=EleventySass* npx @11ty/eleventy
@@ -416,17 +402,17 @@ or, if you prefer more verbose outputs, like this:
 DEBUG=*EleventySass* npx @11ty/eleventy
 ```
 
-## How [eleventy-sass](https://github.com/kentaroi/eleventy-sass) handles Sass/SCSS files
+## How [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) handles Sass/SCSS files
 [Eleventy](https://www.11ty.dev/) watches files.
 
-When [Eleventy](https://www.11ty.dev/) detects a file update, it emits an `eleventy.beforeWatch` event, and [eleventy-sass](https://github.com/kentaroi/eleventy-sass) will receive the event and check if the file is a Sass/SCSS file.
+When [Eleventy](https://www.11ty.dev/) detects a file update, it emits an `eleventy.beforeWatch` event, and [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) will receive the event and check if the file is a Sass/SCSS file.
 
-If the file is a Sass/SCSS file, [eleventy-sass](https://github.com/kentaroi/eleventy-sass) changes the cache keys for the updated file and its dependant Sass/SCSS files, which invalidates the cached CSSes, so that [Eleventy](https://www.11ty.dev/) will compile all of the files affected.
+If the file is a Sass/SCSS file, [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) changes the cache keys for the updated file and its dependant Sass/SCSS files, which invalidates the cached CSSes, so that [Eleventy](https://www.11ty.dev/) will compile all of the files affected.
 
-When compiling Sass/SCSS files, [Eleventy](https://www.11ty.dev/) calls `compile` function of the [eleventy-sass](https://github.com/kentaroi/eleventy-sass).
+When compiling Sass/SCSS files, [Eleventy](https://www.11ty.dev/) calls `compile` function of the [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass).
 
-The `compile` function of [eleventy-sass](https://github.com/kentaroi/eleventy-sass) will compile Sass/SCSS files if they don't start with "\_".
+The `compile` function of [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) will compile Sass/SCSS files if they don't start with "\_".
 
 The actual compilation is done by [sass](https://www.npmjs.com/package/sass), which is [dart-sass](https://github.com/sass/dart-sass).
 
-By using the result of the compilation from [dart-sass](https://github.com/sass/dart-sass), [eleventy-sass](https://github.com/kentaroi/eleventy-sass) not only returns the compiled CSS, but also, if necessary, writes its source map file and updates the dependency map, which [eleventy-sass](https://github.com/kentaroi/eleventy-sass) has internally and uses for invalidating cached CSSes of dependant files as described above.
+By using the result of the compilation from [dart-sass](https://github.com/sass/dart-sass), [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) not only returns the compiled CSS, but also, if necessary, writes its source map file and updates the dependency map, which [eleventy-sass](https://github.com/prettyyellowdog/eleventy-sass) has internally and uses for invalidating cached CSSes of dependant files as described above.
